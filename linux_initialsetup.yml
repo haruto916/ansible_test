@@ -1,0 +1,31 @@
+
+---
+- name: Initialize OS setting for Linux Servers
+  hosts: rocky_servers
+  become: true
+
+
+
+  roles:
+    - role: common/locale
+      tags: "locale"
+    - role: common/packages
+      tags: "packages"
+    - role: common/users
+      tags: "user"
+    - role: common/networks
+      tags: "net"
+    - role: common/resolver
+      tags: "resolver"
+
+
+  post_tasks:
+    - name: Restart target nodes
+      reboot:
+
+    - name: Waiting connection
+      wait_for_connection:
+        delay: 5
+        timeout: 60
+
+
