@@ -1,0 +1,32 @@
+---
+## role variable
+- name: main / Add the OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+
+## yum package update
+- name: main / Update yum packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - "epel-release"
+    - "*"
+  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
+
+
+## apt package
+- name: main / Update apt packages
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+
+## module install
+- name: main / Install the required packages
+  package:
+    name: "{{ required_packages }}"
+    state: present
+
+
