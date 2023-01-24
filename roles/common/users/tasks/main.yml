@@ -18,7 +18,7 @@
 
 ## authorized key
 - name: main / Distribute authorized key
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.key }}"
     key: "{{ lookup('file', '/home/fukui/.ssh/id_rsa.pub') }}"
   loop: "{{ user_newusers|dict2items }}"
